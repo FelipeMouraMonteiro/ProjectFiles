@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "ClosedXML.Extensions.Mvc": {
+              "target": "Package",
+              "version": "[0.2.2, )"
+            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",
