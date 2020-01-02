@@ -88,47 +88,37 @@ namespace ProjectFile
                 }
                 else
                     return false;
-
             }
             else
                 return false;
-
         }
 
-        public void MovimentExcel(string directory) {
+        public List<MovimentoFileExecel> MovimentExcel(string directory)
+        {
+
+
             var wb = new XLWorkbook(directory);
             var planilha = wb.Worksheet(1);
 
-  
-            Console.WriteLine("".PadRight(50, '-'));
-            Console.WriteLine("Sinistro".PadRight(35) + "Valor do Movimento".PadLeft(15));
-            Console.WriteLine("".PadRight(50, '-'));
+            var movimento = new List<MovimentoFileExecel>();
 
             var linha = 3;
 
             while (true)
             {
-             
 
+                if (string.IsNullOrEmpty(planilha.Cell("A" + linha.ToString()).Value.ToString())) break;
 
-
-                var movimento = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                var data = planilha.Cell("B" + linha.ToString()).Value.ToString();
-                var placa = planilha.Cell("C" + linha.ToString()).Value.ToString();
-                var diversos = planilha.Cell("D" + linha.ToString()).Value.ToString();
-                var local = planilha.Cell("E" + linha.ToString()).Value.ToString();
-                var estado = planilha.Cell("F" + linha.ToString()).Value.ToString();
-                var total = planilha.Cell("J" + linha.ToString()).Value.ToString();
-
-                if (string.IsNullOrEmpty(movimento)) break;
-
-                Console.WriteLine(movimento + " - "
-                                    + data + " - "
-                                    + placa + " - "
-                                    + diversos + " - "
-                                    + local + " - "
-                                    + estado + " - "
-                                    + total);
+                movimento.Add(new MovimentoFileExecel
+                    (
+                                                       planilha.Cell("A" + linha.ToString()).Value.ToString()
+                                                     , planilha.Cell("B" + linha.ToString()).Value.ToString().Split(' ')[0]
+                                                     , planilha.Cell("C" + linha.ToString()).Value.ToString()
+                                                     , planilha.Cell("D" + linha.ToString()).Value.ToString()
+                                                     , planilha.Cell("E" + linha.ToString()).Value.ToString()
+                                                     , planilha.Cell("F" + linha.ToString()).Value.ToString()
+                                                     , planilha.Cell("J" + linha.ToString()).Value.ToString())
+                    );
 
                 linha++;
             }
@@ -136,12 +126,8 @@ namespace ProjectFile
             planilha.Dispose();
             wb.Dispose();
 
-            Console.WriteLine("".PadRight(50, '-'));
-            Console.WriteLine("Feito");
 
-            Console.ReadKey();
-
-
+            return movimento;
 
         }
 
